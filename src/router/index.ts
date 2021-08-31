@@ -12,6 +12,11 @@ const router = createRouter({
           path: '',
           name: 'home',
           component: () => import('@/views/home.vue')
+        },
+        {
+          path: 'template/:id',
+          name: 'template',
+          component: () => import('@/components/TemplateList.vue')
         }
       ]
     }
