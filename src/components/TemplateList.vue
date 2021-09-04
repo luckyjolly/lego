@@ -15,9 +15,10 @@
               </div>
             </template>
             <a-card-meta :title="item.title">
-              <template #discription>
-                <div class="discription-detail">
-                  <span>作者： {{ item.author }}</span>
+              <template #description>
+                <div class="description-detail">
+                  <span>作者：{{ item.author }}</span>
+                  <span class="user-number">{{ item.copiedCount }}</span>
                 </div>
               </template>
             </a-card-meta>
@@ -48,7 +49,7 @@
 <style lang="less" scoped>
   .poster-item {
     position: relative;
-    margin-top: 20px;
+    margin-bottom: 20px;
     :deep(.ant-card) {
       border-radius: 12px;
     }
@@ -87,19 +88,19 @@
     :deep(.ant-card-hoverable) {
       box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.1);
     }
-    .ant-card-body {
+    :deep(.ant-card-body) {
       padding: 0;
     }
     .ant-card-meta {
       margin: 0;
     }
-    .ant-card-meta-title {
+    :deep(.ant-card-meta-title) {
       color: #333;
       padding: 10px 12px;
       border-bottom: 1px solid #f2f2f2;
       margin-bottom: 0 !important;
     }
-    .discription-detail {
+    .description-detail {
       display: flex;
       justify-content: space-between;
       padding: 13px 12px;

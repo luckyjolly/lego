@@ -5,6 +5,7 @@
         <div class="page-title">
           <router-link to="/">慕课乐高</router-link>
         </div>
+        <user-profile :user="user"></user-profile>
       </a-layout-header>
       <a-layout-content class="home-layout">
         <router-view></router-view>
@@ -15,11 +16,21 @@
 </template>
 
 <script lang="ts">
-  export default {
+  import UserProfile from '@/components/UserProfile.vue';
+  import { useStore } from 'vuex';
+  import { GlobalDataProps } from '@/store';
+  import { computed } from '@vue/reactivity';
+  import { defineComponent } from '@vue/runtime-core';
+  export default defineComponent({
+    components: {
+      UserProfile
+    },
     setup() {
-      return {};
+      const store = useStore<GlobalDataProps>();
+      const user = computed(() => store.state.user);
+      return { user };
     }
-  };
+  });
 </script>
 
 <style lang="less" scoped>
@@ -29,7 +40,7 @@
 
   .header {
     display: flex;
-    justify-self: center;
+    justify-content: space-between;
     align-items: center;
   }
   .page-title {
