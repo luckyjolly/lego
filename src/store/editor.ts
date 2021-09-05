@@ -14,14 +14,28 @@ interface ComponentData {
 }
 
 export const testComponent: ComponentData[] = [
-  { id: uuidv4(), name: 'l-text', props: { text: 'hello1' } },
-  { id: uuidv4(), name: 'l-text', props: { text: 'hello2' } },
-  { id: uuidv4(), name: 'l-text', props: { text: 'hello3' } }
+  { id: uuidv4(), name: 'l-text', props: { text: 'hello1', fontSize: '20px', color: 'red' } },
+  { id: uuidv4(), name: 'l-text', props: { text: 'hello2', fontSize: '10px', fontWeight: 'blod' } },
+  {
+    id: uuidv4(),
+    name: 'l-text',
+    props: { text: 'hello3', fontSize: '15px', actionType: 'url', url: 'https://www.baidu.com' }
+  }
 ];
 const editor: Module<EditorProps, GlobalDataProps> = {
   state: {
     components: testComponent,
     currentElement: ''
+  },
+  mutations: {
+    addComponent(state, props) {
+      const newComponent: ComponentData = {
+        id: uuidv4(),
+        name: 'l-text',
+        props
+      };
+      state.components.push(newComponent);
+    }
   }
 };
 export default editor;

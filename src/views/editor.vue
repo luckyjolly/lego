@@ -2,15 +2,21 @@
   <div class="editor-container">
     <a-layout>
       <a-layout-sider width="300" style="background: yellow">
-        <div class="sider-container">组件列表</div>
+        <div class="sider-container">
+          组件列表
+          <components-list :list="defaultTextTemplates" @onItemClick="addItem"></components-list>
+        </div>
       </a-layout-sider>
       <a-layout style="padding: 0 24px 24px">
         <a-layout-content class="preview-container">
           <p>画布区域</p>
           <div id="canvas-area" class="preview-list">
-            <div v-for="component in components" :key="component.id">
-              {{ component.props.text }}
-            </div>
+            <component
+              :is="component.name"
+              v-for="component in components"
+              :key="component.id"
+              v-bind="component.props"
+            ></component>
           </div>
         </a-layout-content>
       </a-layout>
@@ -25,12 +31,19 @@
   import { GlobalDataProps } from '@/store';
   import { computed, defineComponent } from 'vue';
   import { useStore } from 'vuex';
+  import ComponentsList from '@/components/ComponentsList.vue';
+  import LText from '@/components/LText.vue';
+  import { defaultTextTemplates } from '@/defaultTemplates';
 
   export default defineComponent({
+    components: { LText, ComponentsList },
     setup() {
       const store = useStore<GlobalDataProps>();
       const components = computed(() => store.state.editor.components);
-      return { components };
+      const addItem = (props: any) => {
+        store.commit('addComponent', props);
+      };
+      return { components, defaultTextTemplates, addItem };
     }
   });
 </script>
