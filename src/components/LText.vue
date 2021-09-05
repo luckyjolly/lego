@@ -6,12 +6,7 @@
 
 <script lang="ts">
   import { defineComponent } from 'vue';
-  import {
-    transformToComponentProps,
-    textDefaultProps,
-    textStylePropNames,
-    TextComponentProps
-  } from '@/defaultProps';
+  import { transformToComponentProps, textDefaultProps, textStylePropNames } from '@/defaultProps';
   import useComponentCommon from '@/hooks/useComponentCommon';
 
   const defaultProps = transformToComponentProps(textDefaultProps);
