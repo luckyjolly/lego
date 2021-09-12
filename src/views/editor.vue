@@ -11,17 +11,24 @@
         <a-layout-content class="preview-container">
           <p>画布区域</p>
           <div id="canvas-area" class="preview-list">
-            <component
-              :is="component.name"
+            <edit-wrapper
               v-for="component in components"
+              :id="component.id"
               :key="component.id"
-              v-bind="component.props"
-            ></component>
+              :active="component.id === currentElement?.id"
+              @setActive="setActive"
+            >
+              <component :is="component.name" v-bind="component.props"></component>
+            </edit-wrapper>
           </div>
         </a-layout-content>
       </a-layout>
       <a-layout-sider width="300" style="background: purple" class="settings-panel">
         组件属性
+        <pre>
+          {{ currentElement }}
+          {{ currentElement?.props }}
+        </pre>
       </a-layout-sider>
     </a-layout>
   </div>
@@ -31,19 +38,26 @@
   import { GlobalDataProps } from '@/store';
   import { computed, defineComponent } from 'vue';
   import { useStore } from 'vuex';
+  import EditWrapper from '@/components/EditWrapper.vue';
   import ComponentsList from '@/components/ComponentsList.vue';
   import LText from '@/components/LText.vue';
   import { defaultTextTemplates } from '@/defaultTemplates';
+  import { ComponentData } from '@/store/editor';
 
   export default defineComponent({
-    components: { LText, ComponentsList },
+    components: { LText, EditWrapper, ComponentsList },
     setup() {
       const store = useStore<GlobalDataProps>();
       const components = computed(() => store.state.editor.components);
       const addItem = (props: any) => {
         store.commit('addComponent', props);
       };
-      return { components, defaultTextTemplates, addItem };
+      const setActive = (id: string) => {
+        store.commit('setActive', id);
+        console.log('id: ', id);
+      };
+      const currentElement = computed<ComponentData | null>(() => store.getters.getCurrentElement);
+      return { components, defaultTextTemplates, addItem, setActive, currentElement };
     }
   });
 </script>

@@ -6,17 +6,25 @@ export interface EditorProps {
   components: ComponentData[]; // 供中间编辑器渲染的数组
   currentElement: string; // 当前编辑的是哪个元素，uuid
 }
-interface ComponentData {
+export interface ComponentData {
   props: Partial<TextComponentProps>;
   id: string;
   name: string;
 }
 
 export const testComponent: ComponentData[] = [
-  { id: uuidv4(), name: 'l-text', props: { text: 'hello1', fontSize: '20px', color: 'red' } },
-  { id: uuidv4(), name: 'l-text', props: { text: 'hello2', fontSize: '10px', fontWeight: 'blod' } },
   {
-    id: uuidv4(),
+    id: uuidv4() || '1',
+    name: 'l-text',
+    props: { text: 'hello1', fontSize: '20px', color: 'red' }
+  },
+  {
+    id: uuidv4() || '2',
+    name: 'l-text',
+    props: { text: 'hello2', fontSize: '10px', fontWeight: 'blod' }
+  },
+  {
+    id: uuidv4() || '3',
     name: 'l-text',
     props: { text: 'hello3', fontSize: '15px', actionType: 'url', url: 'https://www.baidu.com' }
   }
@@ -34,6 +42,14 @@ const editor: Module<EditorProps, GlobalDataProps> = {
         props
       };
       state.components.push(newComponent);
+    },
+    setActive(state, currentId: string) {
+      state.currentElement = currentId;
+    }
+  },
+  getters: {
+    getCurrentElement(state) {
+      return state.components.find((component) => component.id === state.currentElement);
     }
   }
 };
