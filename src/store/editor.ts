@@ -16,17 +16,38 @@ export const testComponent: ComponentData[] = [
   {
     id: uuidv4() || '1',
     name: 'l-text',
-    props: { text: 'hello1', fontSize: '20px', color: 'red' }
+    props: {
+      text: 'hello1',
+      fontSize: '20px',
+      color: 'red',
+      lineHeight: '1',
+      textAlign: 'left',
+      fontFamily: ''
+    }
   },
   {
     id: uuidv4() || '2',
     name: 'l-text',
-    props: { text: 'hello2', fontSize: '10px', fontWeight: 'blod' }
+    props: {
+      text: 'hello2',
+      fontSize: '10px',
+      fontWeight: 'blod',
+      lineHeight: '2',
+      textAlign: 'left',
+      fontFamily: ''
+    }
   },
   {
     id: uuidv4() || '3',
     name: 'l-text',
-    props: { text: 'hello3', fontSize: '15px', actionType: 'url', url: 'https://www.baidu.com' }
+    props: {
+      text: 'hello3',
+      fontSize: '15px',
+      actionType: 'url',
+      url: 'https://www.baidu.com',
+      textAlign: 'left',
+      fontFamily: ''
+    }
   }
 ];
 const editor: Module<EditorProps, GlobalDataProps> = {

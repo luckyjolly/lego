@@ -1,7 +1,7 @@
 <template>
   <div class="editor-container">
     <a-layout>
-      <a-layout-sider width="300" style="background: yellow">
+      <a-layout-sider width="300" style="background: #fff">
         <div class="sider-container">
           组件列表
           <components-list :list="defaultTextTemplates" @onItemClick="addItem"></components-list>
@@ -23,8 +23,12 @@
           </div>
         </a-layout-content>
       </a-layout>
-      <a-layout-sider width="300" style="background: purple" class="settings-panel">
+      <a-layout-sider width="300" style="background: #fff" class="settings-panel">
         组件属性
+        <props-table
+          v-if="currentElement && currentElement.props"
+          :props="currentElement.props"
+        ></props-table>
         <pre>
           {{ currentElement }}
           {{ currentElement?.props }}
@@ -42,10 +46,11 @@
   import ComponentsList from '@/components/ComponentsList.vue';
   import LText from '@/components/LText.vue';
   import { defaultTextTemplates } from '@/defaultTemplates';
+  import PropsTable from '@/components/PropsTable.vue';
   import { ComponentData } from '@/store/editor';
 
   export default defineComponent({
-    components: { LText, EditWrapper, ComponentsList },
+    components: { LText, EditWrapper, ComponentsList, PropsTable },
     setup() {
       const store = useStore<GlobalDataProps>();
       const components = computed(() => store.state.editor.components);
