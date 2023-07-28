@@ -32,7 +32,7 @@
   export default defineComponent({
     props: {
       props: {
-        type: Object as PropType<TextComponentProps>,
+        type: Object as PropType<Partial<TextComponentProps>>,
         required: true
       }
     },

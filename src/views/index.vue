@@ -16,11 +16,10 @@
 </template>
 
 <script lang="ts">
-  import UserProfile from '@/components/UserProfile.vue';
+  import { computed, defineComponent } from 'vue';
   import { useStore } from 'vuex';
+  import UserProfile from '@/components/UserProfile.vue';
   import { GlobalDataProps } from '@/store';
-  import { computed } from '@vue/reactivity';
-  import { defineComponent } from '@vue/runtime-core';
   export default defineComponent({
     components: {
       UserProfile
