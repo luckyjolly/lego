@@ -4,9 +4,10 @@
       <span v-if="value.text" class="label">{{ value.text }}</span>
       <component
         :is="value.component"
-        :value="value.value"
+        :[value.valueProp]="value.value"
         v-bind="value.extraProps"
         class="prop-component"
+        v-on="value.events"
       >
         <template v-if="value.subComponent">
           <component
@@ -27,7 +28,19 @@
   import { computed, defineComponent, PropType } from 'vue';
   import { reduce } from 'lodash-es';
   import { TextComponentProps } from '@/defaultProps';
-  import { mapPropsToForms, PropsToForms } from '@/propsMap';
+  import { mapPropsToForms } from '@/propsMap';
+
+  interface FormProps {
+    component: string;
+    subComponent?: string;
+    value: string;
+    extraProps?: { [key: string]: any };
+    text?: string;
+    options?: { text: string; value: any }[];
+    valueProp: string;
+    eventName: string;
+    events: { [key: string]: any };
+  }
 
   export default defineComponent({
     props: {
@@ -36,7 +49,8 @@
         required: true
       }
     },
-    setup(props) {
+    emits: ['change'],
+    setup(props, context) {
       // 转换对象为另一种形式
       const finalProps = computed(() => {
         return reduce(
@@ -45,15 +59,28 @@
             const newKey = key as keyof TextComponentProps;
             const item = mapPropsToForms[newKey];
             if (item) {
-              item.value = item.initialTransform ? item.initialTransform(value) : value;
-              result[newKey] = item;
+              const { valueProp = 'value', eventName = 'change', initialTransform } = item;
+              const newItem: FormProps = {
+                ...item,
+                value: initialTransform ? initialTransform(value) : value,
+                valueProp,
+                eventName,
+                events: {
+                  [eventName]: (e: any) => {
+                    context.emit('change', { key, value: e });
+                  }
+                }
+              };
+              result[newKey] = newItem;
             }
             return result;
           },
-          {} as Required<PropsToForms>
+          {} as { [key: string]: FormProps }
         ); // result 默认值为 {}
       });
-      return { finalProps };
+      return {
+        finalProps
+      };
     }
   });
 </script>

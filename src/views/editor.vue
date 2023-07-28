@@ -28,6 +28,7 @@
         <props-table
           v-if="currentElement && currentElement.props"
           :props="currentElement.props"
+          @change="handleChange"
         ></props-table>
         <pre>
           {{ currentElement }}
@@ -62,7 +63,11 @@
         console.log('id: ', id);
       };
       const currentElement = computed<ComponentData | null>(() => store.getters.getCurrentElement);
-      return { components, defaultTextTemplates, addItem, setActive, currentElement };
+
+      const handleChange = (e: any) => {
+        console.log('e: ', e);
+      };
+      return { components, defaultTextTemplates, addItem, setActive, currentElement, handleChange };
     }
   });
 </script>
